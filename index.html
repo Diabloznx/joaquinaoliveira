@@ -8,412 +8,193 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:       #131218;
-    --bg2:      #1a1820;
-    --bg3:      #201e27;
-    --pink:     #f2a7c3;
-    --pink-soft:#fddde9;
-    --pink-dim: rgba(242,167,195,0.18);
-    --pink-glow:rgba(242,167,195,0.08);
-    --white:    #f5f0f5;
-    --muted:    #7a6e7e;
-    --border:   rgba(242,167,195,0.15);
-    --card:     rgba(255,255,255,0.025);
+    --bg:#131218; --bg2:#1a1820;
+    --pink:#f2a7c3; --pink-soft:#fddde9;
+    --pink-dim:rgba(242,167,195,0.18); --pink-glow:rgba(242,167,195,0.08);
+    --white:#f5f0f5; --muted:#7a6e7e;
+    --border:rgba(242,167,195,0.15); --card:rgba(255,255,255,0.025);
   }
-
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--white);
-    font-family: 'Jost', sans-serif;
-    font-weight: 300;
-    overflow-x: hidden;
-  }
-
-  /* Ruído sutil */
-  body::after {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 999;
-  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--white);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden}
+  body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:999}
 
   /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 28px 64px;
-    background: linear-gradient(to bottom, rgba(19,18,24,0.96), transparent);
-    backdrop-filter: blur(12px);
-  }
-  .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px; font-style: italic;
-    color: var(--pink); letter-spacing: 1px;
-  }
-  nav ul { list-style: none; display: flex; gap: 40px; }
-  nav ul a {
-    color: var(--muted); text-decoration: none;
-    font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
-    transition: color 0.3s;
-  }
-  nav ul a:hover { color: var(--pink); }
+  nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:22px 64px;background:linear-gradient(to bottom,rgba(19,18,24,0.97),transparent);backdrop-filter:blur(14px)}
+  .nav-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--pink);letter-spacing:1px}
+  .nav-right{display:flex;align-items:center;gap:32px}
+  nav ul{list-style:none;display:flex;gap:32px}
+  nav ul a{color:var(--muted);text-decoration:none;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;transition:color .3s}
+  nav ul a:hover{color:var(--pink)}
 
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    padding: 0 64px;
-    gap: 60px;
-    position: relative;
-    overflow: hidden;
-  }
+  /* LANGUAGE SWITCHER */
+  .lang-switcher{display:flex;align-items:center;gap:2px;border:1px solid var(--border);padding:4px;background:rgba(255,255,255,0.02)}
+  .lang-btn{padding:6px 13px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-family:'Jost',sans-serif;font-weight:500;color:var(--muted);background:transparent;border:none;cursor:pointer;transition:all .25s;border-radius:2px}
+  .lang-btn:hover{color:var(--pink)}
+  .lang-btn.active{background:var(--pink-dim);color:var(--pink);border:1px solid rgba(242,167,195,0.3)}
 
-  /* fundo decorativo */
-  .hero-blob {
-    position: absolute;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(242,167,195,0.09) 0%, transparent 70%);
-    right: -100px; top: 50%; transform: translateY(-50%);
-    pointer-events: none;
-  }
-  .hero-blob2 {
-    position: absolute;
-    width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(242,167,195,0.06) 0%, transparent 70%);
-    left: 60px; bottom: 80px;
-    pointer-events: none;
-  }
-  /* linhas decorativas finas */
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 0; bottom: 0; left: 50%;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, var(--border), transparent);
-    pointer-events: none;
-  }
+  /* HERO */
+  .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 64px;gap:60px;position:relative;overflow:hidden}
+  .hero-blob{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(242,167,195,0.09) 0%,transparent 70%);right:-100px;top:50%;transform:translateY(-50%);pointer-events:none}
+  .hero-blob2{position:absolute;width:300px;height:300px;background:radial-gradient(circle,rgba(242,167,195,0.06) 0%,transparent 70%);left:60px;bottom:80px;pointer-events:none}
+  .hero::before{content:'';position:absolute;top:0;bottom:0;left:50%;width:1px;background:linear-gradient(to bottom,transparent,var(--border),transparent);pointer-events:none}
+  .hero-left{position:relative;z-index:1}
+  .hero-eyebrow{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--pink);margin-bottom:28px;display:flex;align-items:center;gap:14px;opacity:0;animation:fadeUp .9s .2s forwards}
+  .hero-eyebrow::before{content:'';width:30px;height:1px;background:var(--pink)}
+  .hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,6vw,90px);font-weight:300;line-height:1.05;letter-spacing:-1px;opacity:0;animation:fadeUp .9s .35s forwards}
+  .hero-name em{font-style:italic;color:var(--pink)}
+  .hero-role{margin-top:20px;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);opacity:0;animation:fadeUp .9s .5s forwards}
+  .hero-desc{margin-top:36px;max-width:440px;font-size:15px;color:#9a8fa0;line-height:1.85;opacity:0;animation:fadeUp .9s .65s forwards}
+  .hero-badges{margin-top:40px;display:flex;gap:10px;flex-wrap:wrap;opacity:0;animation:fadeUp .9s .8s forwards}
+  .badge{padding:8px 18px;border:1px solid var(--border);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--pink);background:var(--pink-dim);border-radius:40px}
+  .hero-contact{margin-top:48px;display:flex;flex-direction:column;gap:10px;opacity:0;animation:fadeUp .9s .95s forwards}
+  .hero-contact a{color:var(--muted);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:10px;transition:color .3s}
+  .hero-contact a:hover{color:var(--pink-soft)}
+  .hero-right{position:relative;z-index:1;display:flex;flex-direction:column;gap:2px}
+  .hero-stat-card{background:var(--card);border:1px solid var(--border);padding:36px 40px;transition:background .3s,border-color .3s;opacity:0;animation:fadeLeft .9s forwards}
+  .hero-stat-card:nth-child(1){animation-delay:.5s}
+  .hero-stat-card:nth-child(2){animation-delay:.65s}
+  .hero-stat-card:nth-child(3){animation-delay:.8s}
+  .hero-stat-card:hover{background:var(--pink-glow);border-color:rgba(242,167,195,0.4)}
+  .stat-num{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--pink);line-height:1}
+  .stat-label{margin-top:8px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
 
-  .hero-left { position: relative; z-index: 1; }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeLeft{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
 
-  .hero-eyebrow {
-    font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
-    color: var(--pink); margin-bottom: 28px;
-    display: flex; align-items: center; gap: 14px;
-    opacity: 0; animation: fadeUp 0.9s 0.2s forwards;
-  }
-  .hero-eyebrow::before {
-    content: ''; width: 30px; height: 1px; background: var(--pink);
-  }
+  /* SECTIONS */
+  section{padding:110px 64px;position:relative}
+  .bg2{background:var(--bg2)}
+  .sec-label{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--pink);margin-bottom:64px;display:flex;align-items:center;gap:18px}
+  .sec-label::after{content:'';flex:1;max-width:60px;height:1px;background:var(--border)}
+  .sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,5vw,62px);font-weight:300;line-height:1.1;margin-bottom:20px}
+  .sec-title em{color:var(--pink);font-style:italic}
 
-  .hero-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(52px, 6vw, 90px);
-    font-weight: 300; line-height: 1.05; letter-spacing: -1px;
-    opacity: 0; animation: fadeUp 0.9s 0.35s forwards;
-  }
-  .hero-name em { font-style: italic; color: var(--pink); }
+  /* EXPERIENCE */
+  .exp-list{display:flex;flex-direction:column;gap:2px}
+  .exp-item{display:grid;grid-template-columns:220px 1fr;border:1px solid var(--border);background:var(--card);transition:all .3s;position:relative;overflow:hidden}
+  .exp-item::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--pink);transform:scaleY(0);transform-origin:bottom;transition:transform .4s ease}
+  .exp-item:hover::after{transform:scaleY(1)}
+  .exp-item:hover{background:var(--pink-glow);border-color:rgba(242,167,195,0.35)}
+  .exp-left{padding:36px 28px;border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:flex-start;gap:8px}
+  .exp-period{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--pink)}
+  .exp-company{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:400;line-height:1.3}
+  .exp-place{font-size:11px;color:var(--muted);margin-top:4px}
+  .exp-right{padding:36px 40px}
+  .exp-role{font-size:15px;font-weight:500;margin-bottom:16px;color:var(--white)}
+  .exp-bullets{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .exp-bullets li{font-size:13px;color:#8c8096;line-height:1.7;display:flex;gap:12px;align-items:flex-start}
+  .exp-bullets li::before{content:'—';color:var(--pink);flex-shrink:0}
 
-  .hero-title {
-    margin-top: 20px;
-    font-size: 13px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--muted);
-    opacity: 0; animation: fadeUp 0.9s 0.5s forwards;
-  }
+  /* SKILLS */
+  .skills-cols{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+  .skill-group{background:var(--card);border:1px solid var(--border);padding:44px 40px;transition:all .3s}
+  .skill-group:hover{background:var(--pink-glow);border-color:rgba(242,167,195,0.35)}
+  .skill-group-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--pink);margin-bottom:24px}
+  .skill-tags{display:flex;flex-wrap:wrap;gap:8px}
+  .skill-tag{padding:6px 16px;border:1px solid var(--border);font-size:11px;letter-spacing:1px;color:#a095a8;background:rgba(255,255,255,0.02);transition:all .25s}
+  .skill-tag:hover{background:var(--pink-dim);color:var(--pink-soft);border-color:var(--pink)}
 
-  .hero-desc {
-    margin-top: 36px; max-width: 440px;
-    font-size: 15px; color: #9a8fa0; line-height: 1.85;
-    opacity: 0; animation: fadeUp 0.9s 0.65s forwards;
-  }
+  /* LANG SECTION */
+  .lang-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+  .lang-card{background:var(--card);border:1px solid var(--border);padding:44px 36px;text-align:center;transition:all .3s}
+  .lang-card:hover{background:var(--pink-glow);border-color:rgba(242,167,195,0.4)}
+  .lang-name{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--white);margin-bottom:16px}
+  .lang-levels{display:flex;flex-direction:column;gap:8px}
+  .lang-level{display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:1px;color:var(--muted);padding-bottom:8px;border-bottom:1px solid var(--border)}
+  .lang-level:last-child{border-bottom:none}
+  .lang-val{color:var(--pink-soft);font-size:11px}
 
-  .hero-badges {
-    margin-top: 40px; display: flex; gap: 10px; flex-wrap: wrap;
-    opacity: 0; animation: fadeUp 0.9s 0.8s forwards;
-  }
-  .badge {
-    padding: 8px 18px;
-    border: 1px solid var(--border);
-    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
-    color: var(--pink); background: var(--pink-dim);
-    border-radius: 40px;
-  }
+  /* EDUCATION */
+  .edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+  .edu-card{background:var(--card);border:1px solid var(--border);padding:44px 40px;transition:all .3s}
+  .edu-card:hover{background:var(--pink-glow);border-color:rgba(242,167,195,0.35)}
+  .edu-year{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--pink);margin-bottom:14px}
+  .edu-degree{font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:8px}
+  .edu-school{font-size:12px;color:var(--muted);letter-spacing:1px}
 
-  .hero-contact {
-    margin-top: 48px;
-    display: flex; flex-direction: column; gap: 10px;
-    opacity: 0; animation: fadeUp 0.9s 0.95s forwards;
-  }
-  .hero-contact a {
-    color: var(--muted); text-decoration: none; font-size: 13px;
-    display: flex; align-items: center; gap: 10px;
-    transition: color 0.3s;
-  }
-  .hero-contact a:hover { color: var(--pink-soft); }
-  .hero-contact a span { font-size: 15px; }
+  /* TRAINING */
+  .form-list{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
+  .form-item{background:var(--card);border:1px solid var(--border);padding:28px 32px;transition:all .3s;display:flex;gap:20px;align-items:flex-start}
+  .form-item:hover{background:var(--pink-glow);border-color:rgba(242,167,195,0.35)}
+  .form-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+  .form-title{font-size:14px;font-weight:500;margin-bottom:6px;color:var(--white)}
+  .form-inst{font-size:11px;color:var(--muted);letter-spacing:1px}
+  .form-year{font-size:10px;color:var(--pink);letter-spacing:2px;margin-top:6px}
 
-  /* card lado direito */
-  .hero-right {
-    position: relative; z-index: 1;
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .hero-stat-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 36px 40px;
-    transition: background 0.3s, border-color 0.3s;
-    opacity: 0; animation: fadeLeft 0.9s forwards;
-  }
-  .hero-stat-card:nth-child(1) { animation-delay: 0.5s; }
-  .hero-stat-card:nth-child(2) { animation-delay: 0.65s; }
-  .hero-stat-card:nth-child(3) { animation-delay: 0.8s; }
-  .hero-stat-card:hover {
-    background: var(--pink-glow);
-    border-color: rgba(242,167,195,0.4);
-  }
-  .stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 52px; font-weight: 300;
-    color: var(--pink); line-height: 1;
-  }
-  .stat-label {
-    margin-top: 8px; font-size: 11px; letter-spacing: 2px;
-    text-transform: uppercase; color: var(--muted);
-  }
+  /* CONTACT */
+  .contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+  .contact-cta{font-family:'Cormorant Garamond',serif;font-size:clamp(48px,6vw,88px);font-weight:300;line-height:1.05}
+  .contact-cta em{color:var(--pink);font-style:italic}
+  .contact-links{display:flex;flex-direction:column;gap:2px}
+  .contact-link{display:flex;align-items:center;justify-content:space-between;padding:26px 36px;background:var(--card);border:1px solid var(--border);text-decoration:none;color:var(--white);font-size:15px;transition:all .3s}
+  .contact-link:hover{background:var(--pink);color:var(--bg);border-color:var(--pink)}
+  .contact-link .arr{font-size:18px;transition:transform .3s}
+  .contact-link:hover .arr{transform:translate(4px,-4px)}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(28px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeLeft {
-    from { opacity: 0; transform: translateX(28px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-
-  /* ── SECTIONS ── */
-  section { padding: 110px 64px; position: relative; }
-  .bg2 { background: var(--bg2); }
-
-  .sec-label {
-    font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
-    color: var(--pink); margin-bottom: 64px;
-    display: flex; align-items: center; gap: 18px;
-  }
-  .sec-label::after {
-    content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--border);
-  }
-
-  .sec-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(38px, 5vw, 62px); font-weight: 300;
-    line-height: 1.1; margin-bottom: 20px;
-  }
-  .sec-title em { color: var(--pink); font-style: italic; }
-
-  /* ── EXPERIÊNCIA ── */
-  .exp-list { display: flex; flex-direction: column; gap: 2px; }
-
-  .exp-item {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    border: 1px solid var(--border);
-    background: var(--card);
-    transition: all 0.3s;
-    position: relative; overflow: hidden;
-  }
-  .exp-item::after {
-    content: '';
-    position: absolute; left: 0; top: 0; bottom: 0;
-    width: 3px; background: var(--pink);
-    transform: scaleY(0); transform-origin: bottom;
-    transition: transform 0.4s ease;
-  }
-  .exp-item:hover::after { transform: scaleY(1); }
-  .exp-item:hover { background: var(--pink-glow); border-color: rgba(242,167,195,0.35); }
-
-  .exp-left {
-    padding: 36px 28px;
-    border-right: 1px solid var(--border);
-    display: flex; flex-direction: column; justify-content: flex-start;
-    gap: 8px;
-  }
-  .exp-period { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--pink); }
-  .exp-company { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 400; line-height: 1.3; }
-  .exp-place { font-size: 11px; color: var(--muted); margin-top: 4px; }
-
-  .exp-right { padding: 36px 40px; }
-  .exp-role { font-size: 15px; font-weight: 500; margin-bottom: 16px; color: var(--white); }
-  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-  .exp-bullets li {
-    font-size: 13px; color: #8c8096; line-height: 1.7;
-    display: flex; gap: 12px; align-items: flex-start;
-  }
-  .exp-bullets li::before { content: '—'; color: var(--pink); flex-shrink: 0; }
-
-  /* ── HABILIDADES ── */
-  .skills-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-
-  .skill-group {
-    background: var(--card); border: 1px solid var(--border);
-    padding: 44px 40px; transition: all 0.3s;
-  }
-  .skill-group:hover { background: var(--pink-glow); border-color: rgba(242,167,195,0.35); }
-  .skill-group-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px; font-style: italic;
-    color: var(--pink); margin-bottom: 24px;
-  }
-  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-  .skill-tag {
-    padding: 6px 16px; border: 1px solid var(--border);
-    font-size: 11px; letter-spacing: 1px; color: #a095a8;
-    background: rgba(255,255,255,0.02); transition: all 0.25s;
-  }
-  .skill-tag:hover { background: var(--pink-dim); color: var(--pink-soft); border-color: var(--pink); }
-
-  /* ── IDIOMAS ── */
-  .lang-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-  .lang-card {
-    background: var(--card); border: 1px solid var(--border);
-    padding: 44px 36px; text-align: center; transition: all 0.3s;
-  }
-  .lang-card:hover { background: var(--pink-glow); border-color: rgba(242,167,195,0.4); }
-  .lang-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 34px; font-weight: 300; color: var(--white); margin-bottom: 16px;
-  }
-  .lang-levels { display: flex; flex-direction: column; gap: 8px; }
-  .lang-level {
-    display: flex; justify-content: space-between; align-items: center;
-    font-size: 11px; letter-spacing: 1px; color: var(--muted);
-    padding-bottom: 8px; border-bottom: 1px solid var(--border);
-  }
-  .lang-level:last-child { border-bottom: none; }
-  .lang-val { color: var(--pink-soft); font-size: 11px; }
-
-  /* ── EDUCAÇÃO ── */
-  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-  .edu-card {
-    background: var(--card); border: 1px solid var(--border);
-    padding: 44px 40px; transition: all 0.3s;
-  }
-  .edu-card:hover { background: var(--pink-glow); border-color: rgba(242,167,195,0.35); }
-  .edu-year { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--pink); margin-bottom: 14px; }
-  .edu-degree { font-family: 'Cormorant Garamond', serif; font-size: 22px; margin-bottom: 8px; }
-  .edu-school { font-size: 12px; color: var(--muted); letter-spacing: 1px; }
-
-  /* ── FORMAÇÕES ── */
-  .form-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
-  .form-item {
-    background: var(--card); border: 1px solid var(--border);
-    padding: 28px 32px; transition: all 0.3s;
-    display: flex; gap: 20px; align-items: flex-start;
-  }
-  .form-item:hover { background: var(--pink-glow); border-color: rgba(242,167,195,0.35); }
-  .form-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
-  .form-title { font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--white); }
-  .form-inst { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
-  .form-year { font-size: 10px; color: var(--pink); letter-spacing: 2px; margin-top: 6px; }
-
-  /* ── CONTACTO ── */
-  .contact-wrap {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
-  }
-  .contact-cta {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(48px, 6vw, 88px); font-weight: 300; line-height: 1.05;
-  }
-  .contact-cta em { color: var(--pink); font-style: italic; }
-
-  .contact-links { display: flex; flex-direction: column; gap: 2px; }
-  .contact-link {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 26px 36px; background: var(--card); border: 1px solid var(--border);
-    text-decoration: none; color: var(--white); font-size: 15px;
-    transition: all 0.3s;
-  }
-  .contact-link:hover { background: var(--pink); color: var(--bg); border-color: var(--pink); }
-  .contact-link .arr { font-size: 18px; transition: transform 0.3s; }
-  .contact-link:hover .arr { transform: translate(4px, -4px); }
-
-  /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border); padding: 32px 64px;
-    display: flex; justify-content: space-between; align-items: center;
-    color: var(--muted); font-size: 11px; letter-spacing: 1px;
-  }
-  footer em { color: var(--pink); font-style: normal; }
+  footer{border-top:1px solid var(--border);padding:32px 64px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;letter-spacing:1px}
+  footer em{color:var(--pink);font-style:normal}
 
   /* REVEAL */
-  .reveal {
-    opacity: 0; transform: translateY(36px);
-    transition: opacity 0.85s ease, transform 0.85s ease;
-  }
-  .reveal.visible { opacity: 1; transform: none; }
-  .delay-1 { transition-delay: 0.1s; }
-  .delay-2 { transition-delay: 0.2s; }
-  .delay-3 { transition-delay: 0.3s; }
-  .delay-4 { transition-delay: 0.4s; }
+  .reveal{opacity:0;transform:translateY(36px);transition:opacity .85s ease,transform .85s ease}
+  .reveal.visible{opacity:1;transform:none}
+  .delay-1{transition-delay:.1s}
+  .delay-2{transition-delay:.2s}
+  .delay-3{transition-delay:.3s}
+  .corner-deco{position:absolute;top:0;right:0;width:300px;height:300px;background:radial-gradient(circle at top right,rgba(242,167,195,0.07),transparent 70%);pointer-events:none}
 
-  /* decoração rosa canto */
-  .corner-deco {
-    position: absolute; top: 0; right: 0;
-    width: 300px; height: 300px;
-    background: radial-gradient(circle at top right, rgba(242,167,195,0.07), transparent 70%);
-    pointer-events: none;
-  }
+  /* Lang transition */
+  [data-i18n]{transition:opacity .18s}
+  .lang-fade{opacity:0!important}
 
-  @media (max-width: 900px) {
-    nav { padding: 20px 24px; }
-    nav ul { display: none; }
-    .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; }
-    .hero::before { display: none; }
-    .hero-right { display: none; }
-    section { padding: 80px 24px; }
-    .exp-item { grid-template-columns: 1fr; }
-    .exp-left { border-right: none; border-bottom: 1px solid var(--border); }
-    .skills-cols, .lang-grid, .edu-grid, .form-list, .contact-wrap { grid-template-columns: 1fr; }
-    footer { padding: 24px; flex-direction: column; gap: 10px; text-align: center; }
+  @media(max-width:900px){
+    nav{padding:16px 20px}
+    nav ul{display:none}
+    .hero{grid-template-columns:1fr;padding:100px 24px 60px}
+    .hero::before{display:none}
+    .hero-right{display:none}
+    section{padding:80px 24px}
+    .exp-item{grid-template-columns:1fr}
+    .exp-left{border-right:none;border-bottom:1px solid var(--border)}
+    .skills-cols,.lang-grid,.edu-grid,.form-list,.contact-wrap{grid-template-columns:1fr}
+    footer{padding:24px;flex-direction:column;gap:10px;text-align:center}
+    .nav-right{gap:16px}
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">Joaquina Oliveira</div>
-  <ul>
-    <li><a href="#sobre">Sobre</a></li>
-    <li><a href="#experiencia">Experiência</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#educacao">Educação</a></li>
-    <li><a href="#contacto">Contacto</a></li>
-  </ul>
+  <div class="nav-right">
+    <ul>
+      <li><a href="#sobre"      data-i18n="nav_about">Sobre</a></li>
+      <li><a href="#experiencia" data-i18n="nav_exp">Experiência</a></li>
+      <li><a href="#skills"     data-i18n="nav_skills">Skills</a></li>
+      <li><a href="#educacao"   data-i18n="nav_edu">Educação</a></li>
+      <li><a href="#contacto"   data-i18n="nav_contact">Contacto</a></li>
+    </ul>
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="pt">PT</button>
+      <button class="lang-btn"        data-lang="en">EN</button>
+      <button class="lang-btn"        data-lang="fr">FR</button>
+    </div>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="inicio">
-  <div class="hero-blob"></div>
-  <div class="hero-blob2"></div>
-
+  <div class="hero-blob"></div><div class="hero-blob2"></div>
   <div class="hero-left">
-    <h1 class="hero-name">
-      Joaquina<br><em>Oliveira</em>
-    </h1>
-    <p class="hero-eyebrow">Profissional Sénior · Cabinda, Angola</p>
-    <p class="hero-title">Coordenadora de RH · Gestão Administrativa · Supply Chain</p>
-    <p class="hero-desc">
-      Profissional metódica e comunicativa com mais de <strong style="color:var(--pink-soft)">20 anos de experiência</strong> multifuncional nos setores administrativo, financeiro, logístico e de recursos humanos. Comprometida com a excelência, resultados e ambientes colaborativos.
-    </p>
+    <p class="hero-eyebrow" data-i18n="hero_eyebrow">Profissional Sénior · Cabinda, Angola</p>
+    <h1 class="hero-name">Joaquina<br><em>Oliveira</em></h1>
+    <p class="hero-role" data-i18n="hero_title">Coordenadora de RH · Gestão Administrativa · Supply Chain</p>
+    <p class="hero-desc" data-i18n="hero_desc">Profissional metódica e comunicativa com mais de <strong style="color:var(--pink-soft)">20 anos de experiência</strong> multifuncional nos setores administrativo, financeiro, logístico e de recursos humanos.</p>
     <div class="hero-badges">
-      <span class="badge">Recursos Humanos</span>
-      <span class="badge">Supply Chain</span>
-      <span class="badge">Compras</span>
-      <span class="badge">Administração</span>
+      <span class="badge" data-i18n="badge_hr">Recursos Humanos</span>
+      <span class="badge" data-i18n="badge_sc">Supply Chain</span>
+      <span class="badge" data-i18n="badge_buy">Compras</span>
+      <span class="badge" data-i18n="badge_adm">Administração</span>
     </div>
     <div class="hero-contact">
       <a href="mailto:kina.semedo@gmail.com"><span>✉</span> kina.semedo@gmail.com</a>
@@ -422,72 +203,58 @@
       <a><span>📍</span> Bº Amílcar Cabral, Zona C, Casa Nr. 56 · Cabinda, Angola</a>
     </div>
   </div>
-
   <div class="hero-right">
-    <div class="hero-stat-card">
-      <div class="stat-num">20+</div>
-      <div class="stat-label">Anos de Experiência</div>
-    </div>
-    <div class="hero-stat-card">
-      <div class="stat-num">8</div>
-      <div class="stat-label">Empresas & Setores</div>
-    </div>
-    <div class="hero-stat-card">
-      <div class="stat-num">3</div>
-      <div class="stat-label">Idiomas</div>
-    </div>
+    <div class="hero-stat-card"><div class="stat-num">20+</div><div class="stat-label" data-i18n="stat_years">Anos de Experiência</div></div>
+    <div class="hero-stat-card"><div class="stat-num">8</div><div class="stat-label" data-i18n="stat_cos">Empresas & Setores</div></div>
+    <div class="hero-stat-card"><div class="stat-num">3</div><div class="stat-label" data-i18n="stat_langs">Idiomas</div></div>
   </div>
 </section>
 
 <!-- SOBRE -->
 <section class="bg2" id="sobre">
   <div class="corner-deco"></div>
-  <div class="sec-label">01 — Perfil</div>
+  <div class="sec-label" data-i18n="sec_about">01 — Perfil</div>
   <div style="max-width:780px">
-    <h2 class="sec-title reveal">Dedicada.<br>Organizada.<br><em>Excelente.</em></h2>
-    <p class="reveal delay-1" style="color:#9a8fa0;font-size:15px;line-height:1.9;margin-top:24px;">
-      Estou sempre motivada a realizar um bom trabalho em qualquer posição que exerço, garantindo que os clientes da empresa recebam o melhor serviço possível. Tenho grande interesse em aprender continuamente, partilhar e desenvolver competências que me tornem uma profissional de excelência.
-    </p>
-    <p class="reveal delay-2" style="color:#9a8fa0;font-size:15px;line-height:1.9;margin-top:16px;">
-      Sou madura, focada em atingir metas através do trabalho em equipe, dedicada à qualidade e altamente competente em multitarefas. Trabalho bem em grupo e de forma independente, sempre com pontualidade e foco em resultados.
-    </p>
+    <h2 class="sec-title reveal" data-i18n="about_title">Dedicada.<br>Organizada.<br><em>Excelente.</em></h2>
+    <p class="reveal delay-1" style="color:#9a8fa0;font-size:15px;line-height:1.9;margin-top:24px" data-i18n="about_p1">Estou sempre motivada a realizar um bom trabalho em qualquer posição que exerço, garantindo que os clientes da empresa recebam o melhor serviço possível. Tenho grande interesse em aprender continuamente, partilhar e desenvolver competências que me tornem uma profissional de excelência.</p>
+    <p class="reveal delay-2" style="color:#9a8fa0;font-size:15px;line-height:1.9;margin-top:16px" data-i18n="about_p2">Sou madura, focada em atingir metas através do trabalho em equipe, dedicada à qualidade e altamente competente em multitarefas. Trabalho bem em grupo e de forma independente, sempre com pontualidade e foco em resultados.</p>
   </div>
 </section>
 
 <!-- EXPERIÊNCIA -->
 <section id="experiencia">
-  <div class="sec-label">02 — Experiência Profissional</div>
+  <div class="sec-label" data-i18n="sec_exp">02 — Experiência Profissional</div>
   <div class="exp-list">
 
     <div class="exp-item reveal">
       <div class="exp-left">
-        <div class="exp-period">2019 — Presente</div>
+        <div class="exp-period">2019 — <span data-i18n="present">Presente</span></div>
         <div class="exp-company">Algoa Cabinda Fabrication Services, Lda</div>
         <div class="exp-place">Cabinda, Angola</div>
       </div>
       <div class="exp-right">
-        <div class="exp-role">Coordenadora de RH | Apoio a Compras e Logística | Assistente Administrativa</div>
+        <div class="exp-role" data-i18n="exp1_role">Coordenadora de RH | Apoio a Compras e Logística | Assistente Administrativa</div>
         <ul class="exp-bullets">
-          <li>Coordenação das atividades de RH — processamento salarial, controlo de férias, faltas e resolução de conflitos</li>
-          <li>Integração e formação de novos colaboradores, garantindo adaptação à cultura da empresa</li>
-          <li>Apoio à área de compras e logística na requisição e controlo de materiais</li>
-          <li>Atendimento ao público, organização documental e suporte à direção</li>
-          <li>Elaboração de escalas de trabalho e relatórios operacionais</li>
+          <li data-i18n="exp1_b1">Coordenação das atividades de RH — processamento salarial, controlo de férias, faltas e resolução de conflitos</li>
+          <li data-i18n="exp1_b2">Integração e formação de novos colaboradores, garantindo adaptação à cultura da empresa</li>
+          <li data-i18n="exp1_b3">Apoio à área de compras e logística na requisição e controlo de materiais</li>
+          <li data-i18n="exp1_b4">Atendimento ao público, organização documental e suporte à direção</li>
+          <li data-i18n="exp1_b5">Elaboração de escalas de trabalho e relatórios operacionais</li>
         </ul>
       </div>
     </div>
 
     <div class="exp-item reveal delay-1">
       <div class="exp-left">
-        <div class="exp-period">Mar. 2013 — Presente</div>
+        <div class="exp-period">Mar. 2013 — <span data-i18n="present">Presente</span></div>
         <div class="exp-company">TLC — Transporting, Logistics and Consulting</div>
         <div class="exp-place">Cabinda, Angola</div>
       </div>
       <div class="exp-right">
-        <div class="exp-role">Assistente Administrativa e de Faturação</div>
+        <div class="exp-role" data-i18n="exp2_role">Assistente Administrativa e de Faturação</div>
         <ul class="exp-bullets">
-          <li>Emissão de faturas e organização de processos logísticos</li>
-          <li>Atendimento ao cliente e suporte ao setor de transporte</li>
+          <li data-i18n="exp2_b1">Emissão de faturas e organização de processos logísticos</li>
+          <li data-i18n="exp2_b2">Atendimento ao cliente e suporte ao setor de transporte</li>
         </ul>
       </div>
     </div>
@@ -499,10 +266,10 @@
         <div class="exp-place">Campo do Malongo</div>
       </div>
       <div class="exp-right">
-        <div class="exp-role">Técnica de Compras</div>
+        <div class="exp-role" data-i18n="exp3_role">Técnica de Compras</div>
         <ul class="exp-bullets">
-          <li>Aquisição de materiais e serviços técnicos para operações offshore</li>
-          <li>Contato com fornecedores e apoio em processos de procurement</li>
+          <li data-i18n="exp3_b1">Aquisição de materiais e serviços técnicos para operações offshore</li>
+          <li data-i18n="exp3_b2">Contato com fornecedores e apoio em processos de procurement</li>
         </ul>
       </div>
     </div>
@@ -514,10 +281,10 @@
         <div class="exp-place">Malongo</div>
       </div>
       <div class="exp-right">
-        <div class="exp-role">Técnica de Compras</div>
+        <div class="exp-role" data-i18n="exp4_role">Técnica de Compras</div>
         <ul class="exp-bullets">
-          <li>Responsável por solicitações de compras e acompanhamento de entregas</li>
-          <li>Suporte à equipe de operações da CABGOC via empresa prestadora</li>
+          <li data-i18n="exp4_b1">Responsável por solicitações de compras e acompanhamento de entregas</li>
+          <li data-i18n="exp4_b2">Suporte à equipe de operações da CABGOC via empresa prestadora</li>
         </ul>
       </div>
     </div>
@@ -529,10 +296,10 @@
         <div class="exp-place">Angola</div>
       </div>
       <div class="exp-right">
-        <div class="exp-role">Técnica de Compras & Vendas</div>
+        <div class="exp-role" data-i18n="exp5_role">Técnica de Compras & Vendas</div>
         <ul class="exp-bullets">
-          <li>Gestão de processos de compras e vendas — MRO e materiais elétricos</li>
-          <li>Negociação com clientes internacionais e controle de inventário</li>
+          <li data-i18n="exp5_b1">Gestão de processos de compras e vendas — MRO e materiais elétricos</li>
+          <li data-i18n="exp5_b2">Negociação com clientes internacionais e controle de inventário</li>
         </ul>
       </div>
     </div>
@@ -544,10 +311,10 @@
         <div class="exp-place">Angola</div>
       </div>
       <div class="exp-right">
-        <div class="exp-role">Coordenadora de Vistos</div>
+        <div class="exp-role" data-i18n="exp6_role">Coordenadora de Vistos</div>
         <ul class="exp-bullets">
-          <li>Organização de viagens corporativas e logística documental</li>
-          <li>Processamento de vistos e documentação para equipas técnicas</li>
+          <li data-i18n="exp6_b1">Organização de viagens corporativas e logística documental</li>
+          <li data-i18n="exp6_b2">Processamento de vistos e documentação para equipas técnicas</li>
         </ul>
       </div>
     </div>
@@ -556,13 +323,13 @@
       <div class="exp-left">
         <div class="exp-period">2004 — 2007</div>
         <div class="exp-company">Movicel</div>
-        <div class="exp-place">Agência de Cabinda</div>
+        <div class="exp-place" data-i18n="movicel_place">Agência de Cabinda</div>
       </div>
       <div class="exp-right">
-        <div class="exp-role">Assistente de Cliente e Vendas</div>
+        <div class="exp-role" data-i18n="exp7_role">Assistente de Cliente e Vendas</div>
         <ul class="exp-bullets">
-          <li>Atendimento personalizado ao público e vendas de serviços móveis</li>
-          <li>Suporte ao call center e resolução de problemas com clientes</li>
+          <li data-i18n="exp7_b1">Atendimento personalizado ao público e vendas de serviços móveis</li>
+          <li data-i18n="exp7_b2">Suporte ao call center e resolução de problemas com clientes</li>
         </ul>
       </div>
     </div>
@@ -574,9 +341,9 @@
         <div class="exp-place">Angola</div>
       </div>
       <div class="exp-right">
-        <div class="exp-role">Secretária Assistente</div>
+        <div class="exp-role" data-i18n="exp8_role">Secretária Assistente</div>
         <ul class="exp-bullets">
-          <li>Apoio administrativo a supervisores, atendimento e redação de relatórios</li>
+          <li data-i18n="exp8_b1">Apoio administrativo a supervisores, atendimento e redação de relatórios</li>
         </ul>
       </div>
     </div>
@@ -584,76 +351,68 @@
   </div>
 </section>
 
-<!-- HABILIDADES -->
+<!-- SKILLS -->
 <section class="bg2" id="skills">
   <div class="corner-deco"></div>
-  <div class="sec-label">03 — Habilidades</div>
+  <div class="sec-label" data-i18n="sec_skills">03 — Habilidades</div>
   <div class="skills-cols">
-
     <div class="skill-group reveal">
-      <div class="skill-group-title">Sistemas & Software</div>
+      <div class="skill-group-title" data-i18n="skills_sys">Sistemas & Software</div>
       <div class="skill-tags">
-        <span class="skill-tag">E-Procurement</span>
-        <span class="skill-tag">Oracle Applications</span>
-        <span class="skill-tag">GIL3</span>
-        <span class="skill-tag">Primavera</span>
-        <span class="skill-tag">Ariba</span>
-        <span class="skill-tag">PeopleSoft</span>
-        <span class="skill-tag">JD Edwards</span>
-        <span class="skill-tag">Microsoft Word</span>
-        <span class="skill-tag">Microsoft Excel</span>
-        <span class="skill-tag">PowerPoint</span>
+        <span class="skill-tag">E-Procurement</span><span class="skill-tag">Oracle Applications</span>
+        <span class="skill-tag">GIL3</span><span class="skill-tag">Primavera</span>
+        <span class="skill-tag">Ariba</span><span class="skill-tag">PeopleSoft</span>
+        <span class="skill-tag">JD Edwards</span><span class="skill-tag">Microsoft Word</span>
+        <span class="skill-tag">Microsoft Excel</span><span class="skill-tag">PowerPoint</span>
         <span class="skill-tag">Outlook</span>
       </div>
     </div>
-
     <div class="skill-group reveal delay-1">
-      <div class="skill-group-title">Competências Profissionais</div>
+      <div class="skill-group-title" data-i18n="skills_prof">Competências Profissionais</div>
       <div class="skill-tags">
-        <span class="skill-tag">Gestão de RH</span>
-        <span class="skill-tag">Supply Chain</span>
-        <span class="skill-tag">Compras & Procurement</span>
-        <span class="skill-tag">Faturação</span>
-        <span class="skill-tag">Processamento Salarial</span>
-        <span class="skill-tag">Gestão Documental</span>
-        <span class="skill-tag">Atendimento ao Cliente</span>
-        <span class="skill-tag">Trabalho sob Pressão</span>
-        <span class="skill-tag">Multitarefas</span>
-        <span class="skill-tag">Liderança de Equipas</span>
-        <span class="skill-tag">Negociação</span>
-        <span class="skill-tag">Relatórios Operacionais</span>
+        <span class="skill-tag" data-i18n="sk1">Gestão de RH</span>
+        <span class="skill-tag" data-i18n="sk2">Supply Chain</span>
+        <span class="skill-tag" data-i18n="sk3">Compras & Procurement</span>
+        <span class="skill-tag" data-i18n="sk4">Faturação</span>
+        <span class="skill-tag" data-i18n="sk5">Processamento Salarial</span>
+        <span class="skill-tag" data-i18n="sk6">Gestão Documental</span>
+        <span class="skill-tag" data-i18n="sk7">Atendimento ao Cliente</span>
+        <span class="skill-tag" data-i18n="sk8">Trabalho sob Pressão</span>
+        <span class="skill-tag" data-i18n="sk9">Multitarefas</span>
+        <span class="skill-tag" data-i18n="sk10">Liderança de Equipas</span>
+        <span class="skill-tag" data-i18n="sk11">Negociação</span>
+        <span class="skill-tag" data-i18n="sk12">Relatórios Operacionais</span>
       </div>
     </div>
-
   </div>
 </section>
 
 <!-- IDIOMAS -->
 <section id="idiomas">
-  <div class="sec-label">04 — Idiomas</div>
+  <div class="sec-label" data-i18n="sec_langs">04 — Idiomas</div>
   <div class="lang-grid">
     <div class="lang-card reveal">
-      <div class="lang-name">Português</div>
+      <div class="lang-name" data-i18n="lname_pt">Português</div>
       <div class="lang-levels">
-        <div class="lang-level"><span>Compreensão</span><span class="lang-val">Versado</span></div>
-        <div class="lang-level"><span>Escrita</span><span class="lang-val">Versado</span></div>
-        <div class="lang-level"><span>Oral</span><span class="lang-val">Versado</span></div>
+        <div class="lang-level"><span data-i18n="ll_listen">Compreensão</span><span class="lang-val" data-i18n="lv_versado">Versado</span></div>
+        <div class="lang-level"><span data-i18n="ll_write">Escrita</span><span class="lang-val" data-i18n="lv_versado">Versado</span></div>
+        <div class="lang-level"><span data-i18n="ll_speak">Oral</span><span class="lang-val" data-i18n="lv_versado">Versado</span></div>
       </div>
     </div>
     <div class="lang-card reveal delay-1">
-      <div class="lang-name">Inglês</div>
+      <div class="lang-name" data-i18n="lname_en">Inglês</div>
       <div class="lang-levels">
-        <div class="lang-level"><span>Compreensão</span><span class="lang-val">Fluente</span></div>
-        <div class="lang-level"><span>Escrita</span><span class="lang-val">Fluente</span></div>
-        <div class="lang-level"><span>Oral</span><span class="lang-val">Fluente</span></div>
+        <div class="lang-level"><span data-i18n="ll_listen">Compreensão</span><span class="lang-val" data-i18n="lv_fluent">Fluente</span></div>
+        <div class="lang-level"><span data-i18n="ll_write">Escrita</span><span class="lang-val" data-i18n="lv_fluent">Fluente</span></div>
+        <div class="lang-level"><span data-i18n="ll_speak">Oral</span><span class="lang-val" data-i18n="lv_fluent">Fluente</span></div>
       </div>
     </div>
     <div class="lang-card reveal delay-2">
-      <div class="lang-name">Espanhol</div>
+      <div class="lang-name" data-i18n="lname_es">Espanhol</div>
       <div class="lang-levels">
-        <div class="lang-level"><span>Compreensão</span><span class="lang-val">Básico</span></div>
-        <div class="lang-level"><span>Escrita</span><span class="lang-val">Básico</span></div>
-        <div class="lang-level"><span>Oral</span><span class="lang-val">Básico</span></div>
+        <div class="lang-level"><span data-i18n="ll_listen">Compreensão</span><span class="lang-val" data-i18n="lv_basic">Básico</span></div>
+        <div class="lang-level"><span data-i18n="ll_write">Escrita</span><span class="lang-val" data-i18n="lv_basic">Básico</span></div>
+        <div class="lang-level"><span data-i18n="ll_speak">Oral</span><span class="lang-val" data-i18n="lv_basic">Básico</span></div>
       </div>
     </div>
   </div>
@@ -662,16 +421,16 @@
 <!-- EDUCAÇÃO -->
 <section class="bg2" id="educacao">
   <div class="corner-deco"></div>
-  <div class="sec-label">05 — Educação</div>
+  <div class="sec-label" data-i18n="sec_edu">05 — Educação</div>
   <div class="edu-grid">
     <div class="edu-card reveal">
       <div class="edu-year">2002</div>
-      <div class="edu-degree">Direito</div>
+      <div class="edu-degree" data-i18n="edu1">Direito</div>
       <div class="edu-school">Universidade Lusíadas de Angola</div>
     </div>
     <div class="edu-card reveal delay-1">
       <div class="edu-year">1998 — 2001</div>
-      <div class="edu-degree">Ciências Sociais</div>
+      <div class="edu-degree" data-i18n="edu2">Ciências Sociais</div>
       <div class="edu-school">Centro Pré-Universitário (PUNIV)</div>
     </div>
   </div>
@@ -679,105 +438,245 @@
 
 <!-- FORMAÇÕES -->
 <section id="formacoes">
-  <div class="sec-label">06 — Formações Complementares</div>
+  <div class="sec-label" data-i18n="sec_train">06 — Formações Complementares</div>
   <div class="form-list">
-    <div class="form-item reveal">
-      <div class="form-icon">🤝</div>
-      <div>
-        <div class="form-title">Melhores Práticas de Negociação</div>
-        <div class="form-inst">Watershed Associates · por Marcelo Morichi</div>
-        <div class="form-year">2012</div>
-      </div>
-    </div>
-    <div class="form-item reveal delay-1">
-      <div class="form-icon">🛒</div>
-      <div>
-        <div class="form-title">Fundamentos de Compras</div>
-        <div class="form-inst">Watershed Associates · por Paul Jackson</div>
-        <div class="form-year">2012</div>
-      </div>
-    </div>
-    <div class="form-item reveal delay-2">
-      <div class="form-icon">🌐</div>
-      <div>
-        <div class="form-title">Relacionamento com Clientes Internos</div>
-        <div class="form-inst">Watershed Associates · por Paul Jackson</div>
-        <div class="form-year">2012</div>
-      </div>
-    </div>
-    <div class="form-item reveal">
-      <div class="form-icon">⭐</div>
-      <div>
-        <div class="form-title">Habilidades de Serviços com Qualidade</div>
-        <div class="form-inst">Basilares · por Carlos Vasconcelos</div>
-      </div>
-    </div>
-    <div class="form-item reveal delay-1">
-      <div class="form-icon">📞</div>
-      <div>
-        <div class="form-title">Indução para Atendimento e Vendas</div>
-        <div class="form-inst">Basilares · por Carlos Vasconcelos</div>
-      </div>
-    </div>
-    <div class="form-item reveal delay-2">
-      <div class="form-icon">💬</div>
-      <div>
-        <div class="form-title">Comunicação e Trabalho em Equipe</div>
-        <div class="form-inst">Pedro Camara & Associados · por Aida Chemical</div>
-      </div>
-    </div>
-    <div class="form-item reveal">
-      <div class="form-icon">🧠</div>
-      <div>
-        <div class="form-title">Comportamentos Humanos nas Organizações</div>
-        <div class="form-inst">Movicel · por Shay Katzaby</div>
-      </div>
-    </div>
-    <div class="form-item reveal delay-1">
-      <div class="form-icon">💻</div>
-      <div>
-        <div class="form-title">Informática na Ótica do Utilizador</div>
-        <div class="form-inst">CONSULCAB · Word, Excel, PowerPoint, Outlook</div>
-      </div>
-    </div>
+    <div class="form-item reveal"><div class="form-icon">🤝</div><div><div class="form-title" data-i18n="tr1">Melhores Práticas de Negociação</div><div class="form-inst">Watershed Associates · Marcelo Morichi</div><div class="form-year">2012</div></div></div>
+    <div class="form-item reveal delay-1"><div class="form-icon">🛒</div><div><div class="form-title" data-i18n="tr2">Fundamentos de Compras</div><div class="form-inst">Watershed Associates · Paul Jackson</div><div class="form-year">2012</div></div></div>
+    <div class="form-item reveal delay-2"><div class="form-icon">🌐</div><div><div class="form-title" data-i18n="tr3">Relacionamento com Clientes Internos</div><div class="form-inst">Watershed Associates · Paul Jackson</div><div class="form-year">2012</div></div></div>
+    <div class="form-item reveal"><div class="form-icon">⭐</div><div><div class="form-title" data-i18n="tr4">Habilidades de Serviços com Qualidade</div><div class="form-inst">Basilares · Carlos Vasconcelos</div></div></div>
+    <div class="form-item reveal delay-1"><div class="form-icon">📞</div><div><div class="form-title" data-i18n="tr5">Indução para Atendimento e Vendas</div><div class="form-inst">Basilares · Carlos Vasconcelos</div></div></div>
+    <div class="form-item reveal delay-2"><div class="form-icon">💬</div><div><div class="form-title" data-i18n="tr6">Comunicação e Trabalho em Equipe</div><div class="form-inst">Pedro Camara & Associados</div></div></div>
+    <div class="form-item reveal"><div class="form-icon">🧠</div><div><div class="form-title" data-i18n="tr7">Comportamentos Humanos nas Organizações</div><div class="form-inst">Movicel · Shay Katzaby</div></div></div>
+    <div class="form-item reveal delay-1"><div class="form-icon">💻</div><div><div class="form-title" data-i18n="tr8">Informática na Ótica do Utilizador</div><div class="form-inst">CONSULCAB · Word, Excel, PowerPoint, Outlook</div></div></div>
   </div>
 </section>
 
 <!-- CONTACTO -->
 <section class="bg2" id="contacto">
   <div class="corner-deco"></div>
-  <div class="sec-label">07 — Contacto</div>
+  <div class="sec-label" data-i18n="sec_contact">07 — Contacto</div>
   <div class="contact-wrap">
-    <div>
-      <h2 class="contact-cta reveal">
-        Vamos<br>trabalhar<br><em>juntos?</em>
-      </h2>
-    </div>
+    <div><h2 class="contact-cta reveal" data-i18n="contact_cta">Vamos<br>trabalhar<br><em>juntos?</em></h2></div>
     <div class="contact-links">
-      <a href="mailto:kina.semedo@gmail.com" class="contact-link reveal">
-        <span>kina.semedo@gmail.com</span><span class="arr">↗</span>
-      </a>
-      <a href="tel:+244923958210" class="contact-link reveal delay-1">
-        <span>+244 923 958 210</span><span class="arr">↗</span>
-      </a>
-      <a href="https://linkedin.com/in/joaquina-oliveira" class="contact-link reveal delay-2" target="_blank">
-        <span>LinkedIn</span><span class="arr">↗</span>
-      </a>
+      <a href="mailto:kina.semedo@gmail.com" class="contact-link reveal"><span>kina.semedo@gmail.com</span><span class="arr">↗</span></a>
+      <a href="tel:+244923958210" class="contact-link reveal delay-1"><span>+244 923 958 210</span><span class="arr">↗</span></a>
+      <a href="https://linkedin.com/in/joaquina-oliveira" class="contact-link reveal delay-2" target="_blank"><span>LinkedIn</span><span class="arr">↗</span></a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <span>© 2026 <em>Joaquina Oliveira</em>. Todos os direitos reservados.</span>
-  <span>Coordenadora de RH & Gestão Administrativa · Cabinda, Angola</span>
+  <span>© 2026 <em>Joaquina Oliveira</em>. <span data-i18n="footer_r">Todos os direitos reservados.</span></span>
+  <span data-i18n="footer_s">Coordenadora de RH & Gestão Administrativa · Cabinda, Angola</span>
 </footer>
 
 <script>
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+const T = {
+  pt:{
+    nav_about:"Sobre",nav_exp:"Experiência",nav_skills:"Skills",nav_edu:"Educação",nav_contact:"Contacto",
+    hero_eyebrow:"Profissional Sénior · Cabinda, Angola",
+    hero_title:"Coordenadora de RH · Gestão Administrativa · Supply Chain",
+    hero_desc:"Profissional metódica e comunicativa com mais de <strong style='color:var(--pink-soft)'>20 anos de experiência</strong> multifuncional nos setores administrativo, financeiro, logístico e de recursos humanos.",
+    badge_hr:"Recursos Humanos",badge_sc:"Supply Chain",badge_buy:"Compras",badge_adm:"Administração",
+    stat_years:"Anos de Experiência",stat_cos:"Empresas & Setores",stat_langs:"Idiomas",
+    sec_about:"01 — Perfil",
+    about_title:"Dedicada.<br>Organizada.<br><em>Excelente.</em>",
+    about_p1:"Estou sempre motivada a realizar um bom trabalho em qualquer posição que exerço, garantindo que os clientes da empresa recebam o melhor serviço possível. Tenho grande interesse em aprender continuamente, partilhar e desenvolver competências que me tornem uma profissional de excelência.",
+    about_p2:"Sou madura, focada em atingir metas através do trabalho em equipe, dedicada à qualidade e altamente competente em multitarefas. Trabalho bem em grupo e de forma independente, sempre com pontualidade e foco em resultados.",
+    sec_exp:"02 — Experiência Profissional",present:"Presente",
+    exp1_role:"Coordenadora de RH | Apoio a Compras e Logística | Assistente Administrativa",
+    exp1_b1:"Coordenação das atividades de RH — processamento salarial, controlo de férias, faltas e resolução de conflitos",
+    exp1_b2:"Integração e formação de novos colaboradores, garantindo adaptação à cultura da empresa",
+    exp1_b3:"Apoio à área de compras e logística na requisição e controlo de materiais",
+    exp1_b4:"Atendimento ao público, organização documental e suporte à direção",
+    exp1_b5:"Elaboração de escalas de trabalho e relatórios operacionais",
+    exp2_role:"Assistente Administrativa e de Faturação",
+    exp2_b1:"Emissão de faturas e organização de processos logísticos",
+    exp2_b2:"Atendimento ao cliente e suporte ao setor de transporte",
+    exp3_role:"Técnica de Compras",
+    exp3_b1:"Aquisição de materiais e serviços técnicos para operações offshore",
+    exp3_b2:"Contato com fornecedores e apoio em processos de procurement",
+    exp4_role:"Técnica de Compras",
+    exp4_b1:"Responsável por solicitações de compras e acompanhamento de entregas",
+    exp4_b2:"Suporte à equipe de operações da CABGOC via empresa prestadora",
+    exp5_role:"Técnica de Compras & Vendas",
+    exp5_b1:"Gestão de processos de compras e vendas — MRO e materiais elétricos",
+    exp5_b2:"Negociação com clientes internacionais e controle de inventário",
+    exp6_role:"Coordenadora de Vistos",
+    exp6_b1:"Organização de viagens corporativas e logística documental",
+    exp6_b2:"Processamento de vistos e documentação para equipas técnicas",
+    movicel_place:"Agência de Cabinda",
+    exp7_role:"Assistente de Cliente e Vendas",
+    exp7_b1:"Atendimento personalizado ao público e vendas de serviços móveis",
+    exp7_b2:"Suporte ao call center e resolução de problemas com clientes",
+    exp8_role:"Secretária Assistente",
+    exp8_b1:"Apoio administrativo a supervisores, atendimento e redação de relatórios",
+    sec_skills:"03 — Habilidades",skills_sys:"Sistemas & Software",skills_prof:"Competências Profissionais",
+    sk1:"Gestão de RH",sk2:"Supply Chain",sk3:"Compras & Procurement",sk4:"Faturação",
+    sk5:"Processamento Salarial",sk6:"Gestão Documental",sk7:"Atendimento ao Cliente",
+    sk8:"Trabalho sob Pressão",sk9:"Multitarefas",sk10:"Liderança de Equipas",
+    sk11:"Negociação",sk12:"Relatórios Operacionais",
+    sec_langs:"04 — Idiomas",
+    lname_pt:"Português",lname_en:"Inglês",lname_es:"Espanhol",
+    ll_listen:"Compreensão",ll_write:"Escrita",ll_speak:"Oral",
+    lv_versado:"Versado",lv_fluent:"Fluente",lv_basic:"Básico",
+    sec_edu:"05 — Educação",edu1:"Direito",edu2:"Ciências Sociais",
+    sec_train:"06 — Formações Complementares",
+    tr1:"Melhores Práticas de Negociação",tr2:"Fundamentos de Compras",
+    tr3:"Relacionamento com Clientes Internos",tr4:"Habilidades de Serviços com Qualidade",
+    tr5:"Indução para Atendimento e Vendas",tr6:"Comunicação e Trabalho em Equipe",
+    tr7:"Comportamentos Humanos nas Organizações",tr8:"Informática na Ótica do Utilizador",
+    sec_contact:"07 — Contacto",
+    contact_cta:"Vamos<br>trabalhar<br><em>juntos?</em>",
+    footer_r:"Todos os direitos reservados.",
+    footer_s:"Coordenadora de RH & Gestão Administrativa · Cabinda, Angola"
+  },
+  en:{
+    nav_about:"About",nav_exp:"Experience",nav_skills:"Skills",nav_edu:"Education",nav_contact:"Contact",
+    hero_eyebrow:"Senior Professional · Cabinda, Angola",
+    hero_title:"HR Coordinator · Administrative Management · Supply Chain",
+    hero_desc:"Methodical and communicative professional with over <strong style='color:var(--pink-soft)'>20 years of experience</strong> across administrative, financial, logistics and human resources sectors.",
+    badge_hr:"Human Resources",badge_sc:"Supply Chain",badge_buy:"Procurement",badge_adm:"Administration",
+    stat_years:"Years of Experience",stat_cos:"Companies & Sectors",stat_langs:"Languages",
+    sec_about:"01 — Profile",
+    about_title:"Dedicated.<br>Organised.<br><em>Excellent.</em>",
+    about_p1:"I am always motivated to perform my best in any role I hold, ensuring clients receive the highest quality of service. I have a strong interest in continuous learning, knowledge sharing, and developing skills that make me a professional of excellence.",
+    about_p2:"I am mature, results-driven, and highly skilled at multitasking. I work well both in teams and independently, with strong punctuality and a consistent focus on outcomes.",
+    sec_exp:"02 — Professional Experience",present:"Present",
+    exp1_role:"HR Coordinator | Purchasing & Logistics Support | Administrative Assistant",
+    exp1_b1:"Coordination of HR activities — payroll processing, vacation and absence control, and conflict resolution",
+    exp1_b2:"Onboarding and training of new employees, ensuring integration into company culture",
+    exp1_b3:"Support to the purchasing and logistics department in requisition and materials control",
+    exp1_b4:"Public reception, document organisation, and management support",
+    exp1_b5:"Preparation of work schedules and operational reports",
+    exp2_role:"Administrative and Billing Assistant",
+    exp2_b1:"Invoice issuance and organisation of logistics processes",
+    exp2_b2:"Customer service and support to the transport sector",
+    exp3_role:"Purchasing Officer",
+    exp3_b1:"Acquisition of materials and technical services for offshore operations",
+    exp3_b2:"Supplier contact and procurement process support",
+    exp4_role:"Purchasing Officer",
+    exp4_b1:"Responsible for purchase requisitions and delivery follow-up",
+    exp4_b2:"Support to CABGOC's operations team through a service provider",
+    exp5_role:"Purchasing & Sales Officer",
+    exp5_b1:"Management of purchasing and sales processes — MRO and electrical materials",
+    exp5_b2:"Negotiation with international clients and inventory control",
+    exp6_role:"Visa Coordinator",
+    exp6_b1:"Organisation of corporate travel and document logistics",
+    exp6_b2:"Visa processing and legal documentation for technical teams",
+    movicel_place:"Cabinda Branch",
+    exp7_role:"Customer Service & Sales Assistant",
+    exp7_b1:"Personalised customer service and sales of mobile services",
+    exp7_b2:"Call centre support and client problem resolution",
+    exp8_role:"Administrative Secretary",
+    exp8_b1:"Administrative support to supervisors, reception and report writing",
+    sec_skills:"03 — Skills",skills_sys:"Systems & Software",skills_prof:"Professional Competencies",
+    sk1:"HR Management",sk2:"Supply Chain",sk3:"Purchasing & Procurement",sk4:"Invoicing",
+    sk5:"Payroll Processing",sk6:"Document Management",sk7:"Customer Service",
+    sk8:"Working Under Pressure",sk9:"Multitasking",sk10:"Team Leadership",
+    sk11:"Negotiation",sk12:"Operational Reporting",
+    sec_langs:"04 — Languages",
+    lname_pt:"Portuguese",lname_en:"English",lname_es:"Spanish",
+    ll_listen:"Listening",ll_write:"Writing",ll_speak:"Speaking",
+    lv_versado:"Proficient",lv_fluent:"Fluent",lv_basic:"Basic",
+    sec_edu:"05 — Education",edu1:"Law",edu2:"Social Sciences",
+    sec_train:"06 — Additional Training",
+    tr1:"Best Negotiation Practices",tr2:"Purchasing Fundamentals",
+    tr3:"Internal Client Relationship",tr4:"Quality Service Skills",
+    tr5:"Customer Service & Sales Induction",tr6:"Communication & Teamwork",
+    tr7:"Human Behaviour in Organisations",tr8:"Computer Skills for Users",
+    sec_contact:"07 — Contact",
+    contact_cta:"Let's<br>work<br><em>together?</em>",
+    footer_r:"All rights reserved.",
+    footer_s:"HR Coordinator & Administrative Management · Cabinda, Angola"
+  },
+  fr:{
+    nav_about:"À propos",nav_exp:"Expérience",nav_skills:"Compétences",nav_edu:"Formation",nav_contact:"Contact",
+    hero_eyebrow:"Professionnelle Confirmée · Cabinda, Angola",
+    hero_title:"Coordinatrice RH · Gestion Administrative · Supply Chain",
+    hero_desc:"Professionnelle méthodique et communicative avec plus de <strong style='color:var(--pink-soft)'>20 ans d'expérience</strong> dans les secteurs administratif, financier, logistique et des ressources humaines.",
+    badge_hr:"Ressources Humaines",badge_sc:"Supply Chain",badge_buy:"Achats",badge_adm:"Administration",
+    stat_years:"Ans d'Expérience",stat_cos:"Entreprises & Secteurs",stat_langs:"Langues",
+    sec_about:"01 — Profil",
+    about_title:"Dévouée.<br>Organisée.<br><em>Excellente.</em>",
+    about_p1:"Je suis toujours motivée à accomplir un excellent travail dans chaque poste que j'occupe, en m'assurant que les clients reçoivent le meilleur service possible. J'ai un fort intérêt pour la formation continue et le développement des compétences.",
+    about_p2:"Je suis mature, orientée résultats et très compétente en multitâche. Je travaille aussi bien en équipe qu'en autonomie, toujours avec ponctualité et focus sur les objectifs.",
+    sec_exp:"02 — Expérience Professionnelle",present:"Présent",
+    exp1_role:"Coordinatrice RH | Support Achats & Logistique | Assistante Administrative",
+    exp1_b1:"Coordination des activités RH — traitement de la paie, contrôle des congés, absences et résolution des conflits",
+    exp1_b2:"Intégration et formation des nouveaux collaborateurs, assurant leur adaptation à la culture d'entreprise",
+    exp1_b3:"Support au département achats et logistique dans la réquisition et le contrôle des matériaux",
+    exp1_b4:"Accueil du public, organisation documentaire et support à la direction",
+    exp1_b5:"Élaboration des plannings de travail et rapports opérationnels",
+    exp2_role:"Assistante Administrative et de Facturation",
+    exp2_b1:"Émission de factures et organisation des processus logistiques",
+    exp2_b2:"Service client et support au secteur transport",
+    exp3_role:"Technicienne Achats",
+    exp3_b1:"Acquisition de matériaux et services techniques pour opérations offshore",
+    exp3_b2:"Contact fournisseurs et support aux processus de procurement",
+    exp4_role:"Technicienne Achats",
+    exp4_b1:"Responsable des demandes d'achat et suivi des livraisons",
+    exp4_b2:"Support aux opérations de CABGOC via une entreprise prestataire",
+    exp5_role:"Technicienne Achats & Ventes",
+    exp5_b1:"Gestion des processus d'achat et de vente — MRO et matériaux électriques",
+    exp5_b2:"Négociation avec des clients internationaux et contrôle des stocks",
+    exp6_role:"Coordinatrice des Visas",
+    exp6_b1:"Organisation des voyages d'affaires et logistique documentaire",
+    exp6_b2:"Traitement des visas et documentation légale pour équipes techniques",
+    movicel_place:"Agence de Cabinda",
+    exp7_role:"Assistante Service Client & Ventes",
+    exp7_b1:"Accueil personnalisé et ventes de services mobiles",
+    exp7_b2:"Support au centre d'appels et résolution des problèmes clients",
+    exp8_role:"Secrétaire Assistante",
+    exp8_b1:"Support administratif aux superviseurs, accueil et rédaction de rapports",
+    sec_skills:"03 — Compétences",skills_sys:"Systèmes & Logiciels",skills_prof:"Compétences Professionnelles",
+    sk1:"Gestion RH",sk2:"Supply Chain",sk3:"Achats & Procurement",sk4:"Facturation",
+    sk5:"Traitement des Salaires",sk6:"Gestion Documentaire",sk7:"Service Client",
+    sk8:"Travail sous Pression",sk9:"Multitâche",sk10:"Leadership d'Équipe",
+    sk11:"Négociation",sk12:"Rapports Opérationnels",
+    sec_langs:"04 — Langues",
+    lname_pt:"Portugais",lname_en:"Anglais",lname_es:"Espagnol",
+    ll_listen:"Compréhension",ll_write:"Écrit",ll_speak:"Oral",
+    lv_versado:"Maîtrisé",lv_fluent:"Courant",lv_basic:"Basique",
+    sec_edu:"05 — Formation",edu1:"Droit",edu2:"Sciences Sociales",
+    sec_train:"06 — Formations Complémentaires",
+    tr1:"Meilleures Pratiques de Négociation",tr2:"Fondamentaux des Achats",
+    tr3:"Relation avec les Clients Internes",tr4:"Compétences en Service de Qualité",
+    tr5:"Induction Service Client & Ventes",tr6:"Communication et Travail en Équipe",
+    tr7:"Comportements Humains dans les Organisations",tr8:"Informatique pour Utilisateurs",
+    sec_contact:"07 — Contact",
+    contact_cta:"Travaillons<br>ensemble?<br><em>Contactez-moi.</em>",
+    footer_r:"Tous droits réservés.",
+    footer_s:"Coordinatrice RH & Gestion Administrative · Cabinda, Angola"
+  }
+};
+
+let cur = 'pt';
+
+function applyLang(lang) {
+  const dict = T[lang];
+  const els = document.querySelectorAll('[data-i18n]');
+  els.forEach(el => el.classList.add('lang-fade'));
+  setTimeout(() => {
+    els.forEach(el => {
+      const k = el.dataset.i18n;
+      if (dict[k] !== undefined) el.innerHTML = dict[k];
+    });
+    els.forEach(el => el.classList.remove('lang-fade'));
+  }, 180);
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  document.documentElement.lang = lang;
+  cur = lang;
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => { if (btn.dataset.lang !== cur) applyLang(btn.dataset.lang); });
+});
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
